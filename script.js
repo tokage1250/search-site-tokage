@@ -6,7 +6,7 @@
  *
  * Render 側のURL例：https://tokage-proxy.onrender.com
  */
-const RENDER_BACKEND_URL = "https://YOUR-RENDER-SERVICE.onrender.com";
+const RENDER_BACKEND_URL = "https://tokage1250.github.io/search-site-tokage/";
 const isGithubPages = location.hostname.endsWith("github.io");
 const API_BASE = isGithubPages ? RENDER_BACKEND_URL.replace(/\/$/, "") : "";
 
