@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>マイ検索サイト</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; }
+        h1 { color: #333; }
+        input { width: 100%; padding: 12px; font-size: 16px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .item { background: #fff; padding: 15px; margin-top: 10px; border-radius: 4px; border: 1px solid #ddd; }
+        .item a { font-size: 18px; text-decoration: none; color: #0066cc; font-weight: bold; }
+        .item a:hover { text-decoration: underline; }
+        .category { display: inline-block; background: #e1dfdf; padding: 2px 6px; font-size: 12px; border-radius: 3px; margin-left: 8px; }
+        p { margin: 5px 0 0 0; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>マイ検索サイト</h1>
+    <input type="text" id="searchInput" placeholder="キーワードを入力して検索...">
+    <div id="results"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
