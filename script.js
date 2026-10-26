@@ -1,38 +1,56 @@
-let searchData = [];
+/*
+ * GitHub Pages と Render を分けて使う場合：
+ * 1. Render に server.js をデプロイ
+ * 2. 下の RENDER_BACKEND_URL を Render のURLに変更
+ * 3. GitHub に push
+ *
+ * Render 側のURL例：https://tokage-proxy.onrender.com
+ */
+const RENDER_BACKEND_URL = "https://YOUR-RENDER-SERVICE.onrender.com";
+const isGithubPages = location.hostname.endsWith("github.io");
+const API_BASE = isGithubPages ? RENDER_BACKEND_URL.replace(/\/$/, "") : "";
 
-// data.jsonを読み込む
-fetch('data.json')
-    .then(response => response.json())
-    .then(data => {
-        searchData = data;
-        displayResults(searchData); // 最初は全件表示
-    });
+const form = document.getElementById("proxy-form");
+const input = document.getElementById("url-input");
+const message = document.getElementById("message");
+document.getElementById("year").textContent = new Date().getFullYear();
 
-const searchInput = document.getElementById('searchInput');
-const resultsDiv = document.getElementById('results');
+function openUrl(raw) {
+  let value = String(raw || "").trim();
+  if (!value) {
+    message.textContent = "URLを入力してください。";
+    input.focus();
+    return;
+  }
+  if (!/^https?:\/\//i.test(value)) value = "https://" + value;
 
-// 入力するたびに検索する
-searchInput.addEventListener('input', (e) => {
-    const keyword = e.target.value.toLowerCase();
-    const filtered = searchData.filter(item => 
-        item.title.toLowerCase().includes(keyword) || 
-        item.description.toLowerCase().includes(keyword) ||
-        item.category.toLowerCase().includes(keyword)
-    );
-    displayResults(filtered);
-});
+  let parsed;
+  try {
+    parsed = new URL(value);
+    if (!["http:", "https:"].includes(parsed.protocol)) throw new Error();
+  } catch {
+    message.textContent = "URLの形式を確認してください。例：https://example.com";
+    input.focus();
+    return;
+  }
 
-// 結果を画面に表示する関数
-function displayResults(items) {
-    if (items.length === 0) {
-        resultsDiv.innerHTML = '<p style="margin-top:20px;">一致するデータが見つかりませんでした。</p>';
-        return;
-    }
-    resultsDiv.innerHTML = items.map(item => `
-        <div class="item">
-            <a href="${item.url}" target="_blank">${item.title}</a>
-            <span class="category">${item.category}</span>
-            <p>${item.description}</p>
-        </div>
-    `).join('');
+  if (isGithubPages && RENDER_BACKEND_URL.includes("YOUR-RENDER-SERVICE")) {
+    message.textContent = "先に script.js の RENDER_BACKEND_URL を、Renderで公開したURLに変更してください。";
+    return;
+  }
+
+  message.textContent = "ページを読み込んでいます…";
+  const endpoint = `${API_BASE}/proxy?url=${encodeURIComponent(parsed.href)}`;
+  window.location.href = endpoint;
 }
+
+form.addEventListener("submit", event => {
+  event.preventDefault();
+  openUrl(input.value);
+});
+document.querySelectorAll("[data-url]").forEach(button => {
+  button.addEventListener("click", () => {
+    input.value = button.dataset.url;
+    openUrl(button.dataset.url);
+  });
+});
