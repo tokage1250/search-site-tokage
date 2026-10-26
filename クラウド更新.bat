@@ -1,13 +1,14 @@
 @echo off
-echo ã‚¯ãƒ©ã‚¦ãƒ‰ã«ãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡ä¸­...
+chcp 65001 > nul
+echo ƒNƒ‰ƒEƒh‚Éƒf[ƒ^‚ğ‘—M’†...
 
 cd /d C:\Users\aoto\Desktop\search-site
 git add .
-git commit -m "ãƒ‡ãƒ¼ã‚¿ã‚’è‡ªå‹•æ›´æ–°"
+git commit -m "ƒf[ƒ^‚ğ©“®XV"
 git push origin main
 
 echo.
 echo ====================================
-echo ãƒ‡ãƒ¼ã‚¿ã®é€ä¿¡ãŒå®Œäº†ã—ã¾ã—ãŸï¼
+echo ƒf[ƒ^‚Ì‘—M‚ªŠ®—¹‚µ‚Ü‚µ‚½I
 echo ====================================
 pause
